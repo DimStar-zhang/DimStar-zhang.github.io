@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-03-02T13:08:57.000Z">
-<meta property="article:modified_time" content="2026-03-06T03:44:09.538Z">
+<meta property="article:modified_time" content="2026-03-08T11:54:23.640Z">
 <meta property="article:author" content="DimStar">
 <meta property="article:tag" content="总结">
 <meta property="article:tag" content="晚练">
@@ -596,7 +596,7 @@ mjx-container[display="true"] + br {
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">11</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">12</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -645,8 +645,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-03-06 11:44:09</span>
-            <span class="mobile">2026-03-06 11:44:09</span>
+            <span class="desktop">2026-03-08 19:54:23</span>
+            <span class="mobile">2026-03-08 19:54:23</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -688,7 +688,7 @@ mjx-container[display="true"] + br {
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>638 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>713 字</span>
         </span>
     
     
@@ -738,10 +738,12 @@ mjx-container[display="true"] + br {
 <p>无语了。</p>
 <p>注意点：</p>
 <ol>
-<li>先考虑顺子，再考虑带牌</li>
-<li>加一个形如  <code>nmf(i, 2, 15) if (cnt[i]) now++; ans = min(ans, now);</code> 这样的东西。</li>
+<li>先考虑顺子，再考虑带牌，这样搜得快。</li>
+<li>加一个形如  <code>nmf(i, 2, 15) if (cnt[i]) now++; ans = min(ans, now);</code> 这样的东西，方便剪枝。</li>
 <li>（加强版）加一个优化，对于一个搜索过的状态，若当前解不优于原解，则剪枝，可以用类哈希加 map 实现。</li>
 </ol>
+<h2 id="26-3-8"><a href="#26-3-8" class="headerlink" title="26-3-8"></a>26-3-8</h2><p>建一个分层图，第一层是横向边，第二层是纵向边，两层之间建边权为 1 的双向边，还有连接到起点和终点的边。</p>
+<p>这是一个点数边数都是 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="4.919ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 2174 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="TeXAtom" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="4F" d="M308 428Q289 428 289 438Q289 457 318 508T378 593Q417 638 475 671T599 705Q688 705 732 643T777 483Q777 380 733 285T620 123T464 18T293 -22Q188 -22 123 51T58 245Q58 327 87 403T159 533T249 626T333 685T388 705Q404 705 404 693Q404 674 363 649Q333 632 304 606T239 537T181 429T158 290Q158 179 214 114T364 48Q489 48 583 165T677 438Q677 473 670 505T648 568T601 617T528 636Q518 636 513 635Q486 629 460 600T419 544T392 490Q383 470 372 459Q341 430 308 428Z"></path></g></g><g data-mml-node="mo" transform="translate(796,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1185,0)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(1785,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container> 的图，跑一遍 dijkstra 即可。</p>
 
 		</div>
 
@@ -756,7 +758,7 @@ mjx-container[display="true"] + br {
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-03-06 11:44:09
+                    :</strong> 2026-03-08 19:54:23
             </li>
         
         <li>
@@ -963,7 +965,7 @@ mjx-container[display="true"] + br {
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
 		<div class="page-title">晚练计划总结</div>
-		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-20"><span class="nav-text">26-1-20</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-21"><span class="nav-text">26-1-21</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-25"><span class="nav-text">26-1-25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-26"><span class="nav-text">26-1-26</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-27"><span class="nav-text">26-1-27</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-2-25"><span class="nav-text">26-2-25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-2-26"><span class="nav-text">26-2-26</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-2"><span class="nav-text">26-3-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-3"><span class="nav-text">26-3-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-4"><span class="nav-text">26-3-4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-5"><span class="nav-text">26-3-5</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-20"><span class="nav-text">26-1-20</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-21"><span class="nav-text">26-1-21</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-25"><span class="nav-text">26-1-25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-26"><span class="nav-text">26-1-26</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-1-27"><span class="nav-text">26-1-27</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-2-25"><span class="nav-text">26-2-25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-2-26"><span class="nav-text">26-2-26</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-2"><span class="nav-text">26-3-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-3"><span class="nav-text">26-3-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-4"><span class="nav-text">26-3-4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-5"><span class="nav-text">26-3-5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-8"><span class="nav-text">26-3-8</span></a></li></ol>
 
 	</div>
 </div>
@@ -991,11 +993,11 @@ mjx-container[display="true"] + br {
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 11 篇文章
+                        共撰写了 12 篇文章
                     </span>
                     
                         <span>
-                            共 11.2k 字
+                            共 14.5k 字
                         </span>
                     
                 </p>
