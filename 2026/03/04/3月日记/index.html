@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-03-04T02:04:10.000Z">
-<meta property="article:modified_time" content="2026-03-12T09:17:16.309Z">
+<meta property="article:modified_time" content="2026-03-12T09:24:22.124Z">
 <meta property="article:author" content="DimStar">
 <meta property="article:tag" content="总结">
 <meta property="article:tag" content="日记">
@@ -484,7 +484,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">15</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -533,8 +533,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-03-12 17:17:16</span>
-            <span class="mobile">2026-03-12 17:17:16</span>
+            <span class="desktop">2026-03-12 17:24:22</span>
+            <span class="mobile">2026-03-12 17:24:22</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -576,7 +576,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.4k 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.5k 字</span>
         </span>
     
     
@@ -647,7 +647,8 @@
 <p>P10687，yes 表示同一部落，no 反之，这是好想的，但是后面然后要跑一遍背包，因为对于每一个连通块，其具体情况是未知的，所以要跑背包以考虑所有情况，如果有且仅有一种方案符合条件，那这就是解。</p>
 <p>DP 状态 $f_{i,j}$ 表示前 $i$ 个连通块，$j$ 个人神圣的方案数。</p>
 <p>输出具体方案，就是记录状态如何转移，但这里有个 Trick。</p>
-<p>在把 DP 第一维去掉之后，发现有方案的 $j$ 在 DP 过程中会越来越大，而且因为当且仅当 $f_{n,p1} &#x3D; 1$ 时有解，所以中间 DP 转移显然是一条线似的玩意，所以完全可以只压成一维，因为若覆盖了原来的转移方案，则转移出来的值显然大于二，也就不可能在正确解倒推时遇到。</p>
+<p>在把 DP 第一维去掉之后，发现有方案的 $j$ 在 DP 过程中会越来越大，而且因为当且仅当 $f_{n,p1} &#x3D; 1$ 时有解，所以中间 DP 转移显然是一条线似的玩意，所以完全可以只压成一维，因为若后面覆盖了原来记录的这个位置的值转移方案，则转移出来的值显然大于二，也就不可能在正确解倒推时遇到（或者说：$from_i$ 若要成为正确解倒推时遇到的路径，则其被赋过值且仅被赋值过一次）。</p>
+<p><del>反正就是直接压成一维不用滚动而且连记录方案的数组也是如此就对了。</del></p>
 
 		</div>
 
@@ -662,7 +663,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-03-12 17:17:16
+                    :</strong> 2026-03-12 17:24:22
             </li>
         
         <li>
@@ -897,11 +898,11 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 15 篇文章
+                        共撰写了 14 篇文章
                     </span>
                     
                         <span>
-                            共 17.2k 字
+                            共 17.3k 字
                         </span>
                     
                 </p>
