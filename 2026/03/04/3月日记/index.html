@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-03-04T02:04:10.000Z">
-<meta property="article:modified_time" content="2026-03-11T13:06:55.491Z">
+<meta property="article:modified_time" content="2026-03-12T09:17:16.309Z">
 <meta property="article:author" content="DimStar">
 <meta property="article:tag" content="总结">
 <meta property="article:tag" content="日记">
@@ -476,15 +476,15 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">15</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -533,8 +533,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-03-11 21:06:55</span>
-            <span class="mobile">2026-03-11 21:06:55</span>
+            <span class="desktop">2026-03-12 17:17:16</span>
+            <span class="mobile">2026-03-12 17:17:16</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -576,12 +576,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>980 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.4k 字</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 分钟</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>5 分钟</span>
         </span>
     
     
@@ -641,6 +641,13 @@
 <h2 id="26-3-11"><a href="#26-3-11" class="headerlink" title="26-3-11"></a>26-3-11</h2><p>P10590，分块优化 $\mathcal{O}(n^2)$ 暴力，通过分块加指针高效判断偏序关系。</p>
 <p>P1494，莫队板题。</p>
 <p>P4178，点分治板题，点分治学习笔记 To do。</p>
+<h2 id="26-3-12"><a href="#26-3-12" class="headerlink" title="26-3-12"></a>26-3-12</h2><p>P4735，可持久化数据结构的一大用处就是通过记录历史版本的信息，帮助我们过滤错解（本题中用于使答案符合有关 $r$ 的限制），通过维护另外一些信息还能扩展，如支持更多限制等（本题中是有关 $l$ 的限制）。</p>
+<p>P1525，略。</p>
+<p>P10686，判定方式比较有趣，是假设一个人是裁判，此时有关这个人的所有条件是无用的，除去这些无用条件后再扫一遍判断，若合法就证明这个人可以是裁判，第二问的答案是判定其他不是裁判的人时找到矛盾的最大轮数，因为至少要经过这些轮次后才能知道其他人不是裁判。</p>
+<p>P10687，yes 表示同一部落，no 反之，这是好想的，但是后面然后要跑一遍背包，因为对于每一个连通块，其具体情况是未知的，所以要跑背包以考虑所有情况，如果有且仅有一种方案符合条件，那这就是解。</p>
+<p>DP 状态 $f_{i,j}$ 表示前 $i$ 个连通块，$j$ 个人神圣的方案数。</p>
+<p>输出具体方案，就是记录状态如何转移，但这里有个 Trick。</p>
+<p>在把 DP 第一维去掉之后，发现有方案的 $j$ 在 DP 过程中会越来越大，而且因为当且仅当 $f_{n,p1} &#x3D; 1$ 时有解，所以中间 DP 转移显然是一条线似的玩意，所以完全可以只压成一维，因为若覆盖了原来的转移方案，则转移出来的值显然大于二，也就不可能在正确解倒推时遇到。</p>
 
 		</div>
 
@@ -655,7 +662,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-03-11 21:06:55
+                    :</strong> 2026-03-12 17:17:16
             </li>
         
         <li>
@@ -862,7 +869,7 @@
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
 		<div class="page-title">3月日记</div>
-		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-1"><span class="nav-text">26-3-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-2"><span class="nav-text">26-3-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-3"><span class="nav-text">26-3-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-4"><span class="nav-text">26-3-4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-5"><span class="nav-text">26-3-5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-6"><span class="nav-text">26-3-6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-9"><span class="nav-text">26-3-9</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-10"><span class="nav-text">26-3-10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-11"><span class="nav-text">26-3-11</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-1"><span class="nav-text">26-3-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-2"><span class="nav-text">26-3-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-3"><span class="nav-text">26-3-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-4"><span class="nav-text">26-3-4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-5"><span class="nav-text">26-3-5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-6"><span class="nav-text">26-3-6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-9"><span class="nav-text">26-3-9</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-10"><span class="nav-text">26-3-10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-11"><span class="nav-text">26-3-11</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-3-12"><span class="nav-text">26-3-12</span></a></li></ol>
 
 	</div>
 </div>
@@ -890,11 +897,11 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 13 篇文章
+                        共撰写了 15 篇文章
                     </span>
                     
                         <span>
-                            共 15.7k 字
+                            共 17.2k 字
                         </span>
                     
                 </p>
