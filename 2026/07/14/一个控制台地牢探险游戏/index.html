@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-07-14T12:19:34.000Z">
-<meta property="article:modified_time" content="2026-07-14T12:38:04.369Z">
+<meta property="article:modified_time" content="2026-07-15T12:48:34.851Z">
 <meta property="article:author" content="DimStar">
 <meta property="article:tag" content="游戏">
 <meta name="twitter:card" content="summary">
@@ -521,8 +521,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-07-14 20:38:04</span>
-            <span class="mobile">2026-07-14 20:38:04</span>
+            <span class="desktop">2026-07-15 20:48:34</span>
+            <span class="mobile">2026-07-15 20:48:34</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -560,7 +560,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.9k 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2k 字</span>
         </span>
     
     
@@ -592,7 +592,7 @@
 <li>地图大小为 <strong>80×30</strong>，由随机房间与走廊连接而成。</li>
 <li>地面有 <strong>尖刺陷阱 <code>^</code></strong>，踩中会受到当前最大生命百分比的伤害（随楼层加深）。</li>
 <li>地图上会生成 <strong>药水 <code>+</code></strong>、<strong>攻击强化 <code>A</code></strong>、<strong>防御强化 <code>D</code></strong>、<strong>金币 <code>$</code></strong>。</li>
-<li><strong>出生点</strong>（玩家起始位置）不会刷新怪物或陷阱，并且商店始终出现在出生点附近。</li>
+<li><strong>出生房间</strong>（玩家起始房间）不会刷新怪物或陷阱，并且商店始终出现在出生房间内。</li>
 <li><strong>Boss 层</strong>（每10层）只有 Boss 一个敌人，且初始无楼梯，击败 Boss 后楼梯出现。</li>
 </ul>
 <h2 id="战斗系统"><a href="#战斗系统" class="headerlink" title="战斗系统"></a>战斗系统</h2><h3 id="近战攻击"><a href="#近战攻击" class="headerlink" title="近战攻击"></a>近战攻击</h3><ul>
@@ -621,7 +621,7 @@
 <li>所需经验值随等级递增，每 50 级需求翻倍。</li>
 </ul>
 <h3 id="金币与商店（S）"><a href="#金币与商店（S）" class="headerlink" title="金币与商店（S）"></a>金币与商店（<code>S</code>）</h3><ul>
-<li>商店固定出现在出生点附近，进入后可循环购买，直到选择离开。</li>
+<li>商店固定出现在出生房间，进入后可循环购买，直到选择离开。</li>
 <li><strong>商品列表</strong>：<ol>
 <li>大药水（恢复 50% 最大生命）—— 15 金币</li>
 <li>攻击强化（+3 攻击）—— 25 金币</li>
@@ -701,7 +701,7 @@
 </tr>
 <tr>
 <td>烈焰风暴</td>
-<td>对周围5×5敌人造成 <strong>2.0 &#x2F; 3.0 &#x2F; 4.0</strong> 倍攻击力伤害</td>
+<td>对与玩家曼哈顿距离不大于 7 的敌人造成 <strong>2.0 &#x2F; 3.0 &#x2F; 4.0</strong> 倍攻击力伤害</td>
 <td>5</td>
 <td>8</td>
 </tr>
@@ -759,14 +759,15 @@
 <li>消息区：最新战斗&#x2F;技能反馈文字。</li>
 </ul>
 <h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><ul>
-<li>善用远程攻击风筝精英怪与 Boss。</li>
+<li>善用远程攻击和技能风筝精英怪与 Boss。</li>
 <li>自动锁定与穿透射击是提升远程效率的关键被动；两者互斥，只能择一学习。</li>
 <li>商店中的近战&#x2F;远程倍率强化价格会不断增长，请合理分配金币；前几次购买性价比极高。</li>
 <li>护盾与冻结技能是保命神技，但冷却较长，建议预留到危急时刻使用。</li>
 <li>连续攻击同一精英可快速触发破甲，大幅提升击杀速度，但注意转火后防御会立刻恢复。</li>
-<li>出生点周围永远安全，可放心休整后再出发探索。</li>
+<li>出生房间永远安全，可放心休整后再出发探索。</li>
 </ul>
 <hr>
+<p><strong>祝你探索愉快，越战越勇！</strong></p>
 <h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><p><code>1.0.4</code>：目前版本。</p>
 <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a href="/upload/2026/07/14/Dungeon_1_0_4.cpp" download="Dungeon_1_0_4.cpp"><code>1.0.4</code></a></p>
 
@@ -783,7 +784,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-07-14 20:38:04
+                    :</strong> 2026-07-15 20:48:34
             </li>
         
         <li>
@@ -878,7 +879,7 @@
                     </span>
                     
                         <span>
-                            共 51.1k 字
+                            共 51.2k 字
                         </span>
                     
                 </p>
