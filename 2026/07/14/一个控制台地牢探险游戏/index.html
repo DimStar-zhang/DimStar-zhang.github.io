@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-07-14T12:19:34.000Z">
-<meta property="article:modified_time" content="2026-07-15T12:48:34.851Z">
+<meta property="article:modified_time" content="2026-07-16T08:13:53.295Z">
 <meta property="article:author" content="DimStar">
 <meta property="article:tag" content="游戏">
 <meta name="twitter:card" content="summary">
@@ -521,8 +521,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-07-15 20:48:34</span>
-            <span class="mobile">2026-07-15 20:48:34</span>
+            <span class="desktop">2026-07-16 16:13:53</span>
+            <span class="mobile">2026-07-16 16:13:53</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -560,7 +560,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2k 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.2k 字</span>
         </span>
     
     
@@ -580,39 +580,44 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>《地牢探险》是一款控制台 Roguelike 游戏。玩家扮演一名冒险者，深入随机生成的地牢，面对普通怪物、精英和 BOSS，收集金币与药水，通过升级和商店强化自身，并学习各种被动&#x2F;主动技能。目标是不断深入地下，挑战更高层数。</p>
+			<p>代码主要是 DeepSeek 写的，DimStar 负责 idea 和数值调整，但我不为平衡性烂负责。（）</p>
+<p>文档是 DeepSeek 写的。</p>
+<h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>《地牢探险》是一款控制台 Roguelike 游戏。玩家扮演一名冒险者，深入随机生成的地牢，面对普通怪物、精英和 BOSS，收集金币与药水，通过升级和商店强化自身，并学习各种被动&#x2F;主动技能。目标是不断深入地下，挑战更高层数。</p>
 <h2 id="操作指南"><a href="#操作指南" class="headerlink" title="操作指南"></a>操作指南</h2><ul>
 <li><strong>移动</strong>：<code>W</code> <code>A</code> <code>S</code> <code>D</code>  </li>
 <li><strong>远程攻击</strong>：<code>F</code>（朝最后一次移动方向射击，或自动锁定最近敌人）  </li>
-<li><strong>使用技能</strong>：数字键 <code>1</code> ～ <code>5</code>（对应主动技能槽位，最多5个主动技能）  </li>
+<li><strong>使用技能</strong>：数字键 <code>1</code> ～ <code>5</code>（对应主动技能槽位，最多同时拥有 5 个主动技能）  </li>
 <li><strong>退出游戏</strong>：<code>Q</code>（可在战斗中随时退出）  </li>
 <li><strong>楼梯交互</strong>：站在楼梯 <code>&gt;</code> 上时，按 <code>Y</code> 进入下一层，按 <code>N</code> 留在本层，在 Boss 层还可按 <code>Q</code> 胜利离开。</li>
 </ul>
 <h2 id="地图与生成"><a href="#地图与生成" class="headerlink" title="地图与生成"></a>地图与生成</h2><ul>
 <li>地图大小为 <strong>80×30</strong>，由随机房间与走廊连接而成。</li>
-<li>地面有 <strong>尖刺陷阱 <code>^</code></strong>，踩中会受到当前最大生命百分比的伤害（随楼层加深）。</li>
+<li>地面有 <strong>尖刺陷阱 <code>^</code></strong>，踩中会受到当前最大生命百分比的伤害（随楼层加深，最多 30%），<strong>该伤害不受玩家防御、护盾或临时防御加成影响</strong>。</li>
 <li>地图上会生成 <strong>药水 <code>+</code></strong>、<strong>攻击强化 <code>A</code></strong>、<strong>防御强化 <code>D</code></strong>、<strong>金币 <code>$</code></strong>。</li>
 <li><strong>出生房间</strong>（玩家起始房间）不会刷新怪物或陷阱，并且商店始终出现在出生房间内。</li>
-<li><strong>Boss 层</strong>（每10层）只有 Boss 一个敌人，且初始无楼梯，击败 Boss 后楼梯出现。</li>
+<li><strong>Boss 层</strong>（每 10 层）只有 Boss 一个敌人，且初始无楼梯，击败 Boss 后楼梯出现。</li>
 </ul>
 <h2 id="战斗系统"><a href="#战斗系统" class="headerlink" title="战斗系统"></a>战斗系统</h2><h3 id="近战攻击"><a href="#近战攻击" class="headerlink" title="近战攻击"></a>近战攻击</h3><ul>
 <li>向敌人所在格子移动即可发动近战攻击。</li>
-<li>伤害 &#x3D; <code>(攻击力 + 临时攻击加成) × (1 + 近战倍率)</code>，再经由敌人防御减伤计算。</li>
+<li>伤害 &#x3D; <code>(攻击力 + 临时攻击加成) × (1 + 近战倍率)</code>，再经敌人防御减伤计算。</li>
+<li>若拥有<strong>吸血</strong>被动，近战造成伤害时按比例回复生命。</li>
 </ul>
 <h3 id="远程攻击（F-键）"><a href="#远程攻击（F-键）" class="headerlink" title="远程攻击（F 键）"></a>远程攻击（F 键）</h3><ul>
-<li>消耗少量生命值（最大生命的2%+1）发射弹矢。</li>
-<li>基础伤害为 <code>攻击力 × (0.8 + 远程倍率)</code>，再减伤计算。</li>
+<li>消耗少量生命值发射弹矢。</li>
+<li>基础伤害为 <code>攻击力 × (0.8 + 远程倍率)</code>，再经减伤计算。</li>
 <li>拥有<strong>自动锁定</strong>被动时，自动瞄准视野内最近的敌人（距离随技能等级提升）。</li>
-<li>拥有<strong>穿透射击</strong>被动时，远程攻击可穿透墙壁和敌人，每级增加1次穿透次数（无穿透时子弹遇墙或命中敌人即消失）。</li>
+<li>拥有<strong>穿透射击</strong>被动时，远程攻击可穿透墙壁和敌人，每级增加 1 次穿透次数（无穿透时子弹遇墙或命中敌人即消失）。</li>
+<li>若拥有<strong>远程专精</strong>被动，远程攻击的生命消耗会大幅降低，满级时可完全免除消耗。</li>
 </ul>
 <h3 id="防御与减伤"><a href="#防御与减伤" class="headerlink" title="防御与减伤"></a>防御与减伤</h3><ul>
 <li><strong>玩家受击减伤</strong>：有效防御 &#x3D; 面板防御 + 临时防御加成 + 隐藏护甲（8点）。减伤公式：<code>伤害 × (1 - 有效防御 / (有效防御 + 30))</code>。</li>
 <li><strong>敌人受击减伤</strong>：减伤公式：<code>伤害 × (1 - 敌人防御 / (敌人防御 + 80))</code>，且伤害不会低于攻击力的 <strong>15%</strong>（保底伤害）。</li>
 <li><strong>破甲机制</strong>：连续攻击同一敌人会逐渐降低其防御（每命中一次降低15%当前防御，最多降低60%），停止攻击该敌人一个回合后防御恢复原值。</li>
+<li><strong>尖刺陷阱伤害</strong>：直接扣除百分比生命，无视防御与护盾。</li>
 </ul>
 <h3 id="特殊状态"><a href="#特殊状态" class="headerlink" title="特殊状态"></a>特殊状态</h3><ul>
 <li><strong>护盾</strong>：吸收伤害，优先于生命扣除，持续回合结束或护盾耗尽。</li>
-<li><strong>临时攻防加成</strong>：由技能提供，持续3回合，各自独立计时。</li>
+<li><strong>临时攻防加成</strong>：由技能提供，各自独立计时，持续时间结束消失。</li>
 <li><strong>冻结</strong>：所有敌人跳过行动若干回合。</li>
 </ul>
 <h2 id="角色成长"><a href="#角色成长" class="headerlink" title="角色成长"></a>角色成长</h2><h3 id="等级与经验"><a href="#等级与经验" class="headerlink" title="等级与经验"></a>等级与经验</h3><ul>
@@ -683,6 +688,20 @@
 <td>+2</td>
 <td>+3</td>
 </tr>
+<tr>
+<td>吸血</td>
+<td>近战攻击时回复造成伤害的百分比</td>
+<td>10%</td>
+<td>15%</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>远程专精</td>
+<td>远程攻击生命消耗降低</td>
+<td>-50%</td>
+<td>-75%</td>
+<td>-100%</td>
+</tr>
 </tbody></table>
 <h4 id="主动技能列表"><a href="#主动技能列表" class="headerlink" title="主动技能列表"></a>主动技能列表</h4><table>
 <thead>
@@ -695,58 +714,64 @@
 </thead>
 <tbody><tr>
 <td>冲刺</td>
-<td>朝移动方向瞬间前进 <strong>4 &#x2F; 5 &#x2F; 6</strong> 格（不会与药水、楼梯、商店、尖刺产生交互，但会被敌人或墙壁阻挡）</td>
+<td>朝移动方向前进 <strong>4 &#x2F; 5 &#x2F; 6</strong> 格</td>
 <td>3</td>
-<td>5</td>
+<td>15</td>
 </tr>
 <tr>
 <td>烈焰风暴</td>
-<td>对与玩家曼哈顿距离不大于 7 的敌人造成 <strong>2.0 &#x2F; 3.0 &#x2F; 4.0</strong> 倍攻击力伤害</td>
+<td>对与玩家曼哈顿距离 ≤ 7 的所有敌人造成 <strong>3.0 &#x2F; 5.0 &#x2F; 7.0</strong> 倍攻击力伤害</td>
 <td>5</td>
-<td>8</td>
+<td>40</td>
 </tr>
 <tr>
 <td>治疗术</td>
-<td>回复 <strong>18% &#x2F; 21% &#x2F; 24%</strong> 最大生命</td>
-<td>7</td>
-<td>10</td>
+<td>回复 <strong>20% &#x2F; 30% &#x2F; 40%</strong> 最大生命</td>
+<td>15</td>
+<td>100</td>
 </tr>
 <tr>
 <td>护盾</td>
-<td>获得可吸收 <strong>25% &#x2F; 30% &#x2F; 35%</strong> 最大生命的护盾，持续5回合</td>
-<td>10</td>
-<td>10</td>
+<td>获得可吸收 <strong>40% &#x2F; 55% &#x2F; 70%</strong> 最大生命的护盾，持续 <strong>6</strong> 回合</td>
+<td>11</td>
+<td>70</td>
 </tr>
 <tr>
 <td>狂暴</td>
-<td>攻击力临时提高 <strong>35% &#x2F; 40% &#x2F; 45%</strong>，持续3回合</td>
-<td>5</td>
-<td>7</td>
+<td>攻击力临时提高 <strong>30% &#x2F; 40% &#x2F; 50%</strong>，持续 <strong>6</strong> 回合</td>
+<td>8</td>
+<td>50</td>
 </tr>
 <tr>
 <td>铁壁</td>
-<td>防御力临时提高 <strong>35% &#x2F; 40% &#x2F; 45%</strong>，持续3回合</td>
-<td>5</td>
-<td>7</td>
+<td>防御力临时提高 <strong>30% &#x2F; 40% &#x2F; 50%</strong>，持续 <strong>6</strong> 回合</td>
+<td>8</td>
+<td>50</td>
 </tr>
 <tr>
 <td>冻结</td>
-<td>冻结视野内所有敌人 <strong>3 &#x2F; 4 &#x2F; 5</strong> 回合</td>
-<td>7</td>
-<td>10</td>
+<td>冻结所有敌人 <strong>4 &#x2F; 5 &#x2F; 6</strong> 回合</td>
+<td>11</td>
+<td>80</td>
+</tr>
+<tr>
+<td>闪现</td>
+<td>向移动方向瞬间移动 <strong>9 &#x2F; 12 &#x2F; 15</strong> 格，可穿墙</td>
+<td>8</td>
+<td>40</td>
 </tr>
 </tbody></table>
 <p><em>注：所有百分比基于技能使用时的当前攻击力&#x2F;防御力&#x2F;最大生命计算。</em></p>
 <h2 id="怪物类型"><a href="#怪物类型" class="headerlink" title="怪物类型"></a>怪物类型</h2><ul>
 <li><strong>普通近战 <code>E</code></strong>：基础属性，随楼层成长。</li>
-<li><strong>普通弓箭手 <code>r</code></strong>：生命较低（80%），攻击力较高（120%），可在2～4格射程远程攻击玩家。</li>
+<li><strong>普通弓箭手 <code>r</code></strong>：生命较低（80%），攻击力较高（120%），可在 2～4 格射程远程攻击玩家。</li>
 <li><strong>精英近战 <code>M</code></strong>：属性大幅强化（生命、攻击、防御均为普通敌人的数倍，且随楼层增长更快）。</li>
 <li><strong>精英弓箭手 <code>R</code></strong>：兼具精英强化和弓箭手特性。</li>
-<li><strong>Boss <code>B</code></strong>：每10层出现，拥有极高的生命、攻击和防御，击败后方可生成楼梯。</li>
+<li><strong>Boss <code>B</code></strong>：每 10 层出现，拥有极高的生命、攻击和防御，击败后方可生成楼梯。</li>
 </ul>
 <p>所有敌人均受破甲机制影响，连续攻击会使其防御逐渐降低。</p>
 <h2 id="存档与记录"><a href="#存档与记录" class="headerlink" title="存档与记录"></a>存档与记录</h2><ul>
-<li><strong>自动存档</strong>：每当通过楼梯进入下一层或主动从Boss层胜利离开时自动保存进度。</li>
+<li><strong>自动存档</strong>：每当通过楼梯进入下一层或主动从 Boss 层胜利离开时自动保存进度。</li>
 <li><strong>死亡惩罚</strong>：角色死亡后存档删除，需重新开始。</li>
 <li><strong>永久记录</strong>：每次游戏结束（死亡、胜利或主动退出）会更新永久历史记录（最深楼层、最高等级、各怪物最高击杀数），可在主菜单查看。</li>
 <li><strong>当前存档详情</strong>：主菜单可查看现有存档的详细状态，包括角色属性、金币、技能清单等。</li>
@@ -754,7 +779,7 @@
 <h2 id="界面提示"><a href="#界面提示" class="headerlink" title="界面提示"></a>界面提示</h2><p>游戏画面下方会显示状态栏和消息：</p>
 <ul>
 <li>状态栏：当前楼层、生命&#x2F;最大生命、MP、攻击、防御、等级、经验、金币、敌人数量、近战&#x2F;远程倍率。</li>
-<li>技能栏：显示数字键1～5对应的主动技能名称、等级及冷却状态。</li>
+<li>技能栏：显示数字键 1～5 对应的主动技能名称、等级及冷却状态。</li>
 <li>临时状态：护盾值、攻击加成、防御加成、冻结剩余回合。</li>
 <li>消息区：最新战斗&#x2F;技能反馈文字。</li>
 </ul>
@@ -765,11 +790,16 @@
 <li>护盾与冻结技能是保命神技，但冷却较长，建议预留到危急时刻使用。</li>
 <li>连续攻击同一精英可快速触发破甲，大幅提升击杀速度，但注意转火后防御会立刻恢复。</li>
 <li>出生房间永远安全，可放心休整后再出发探索。</li>
+<li>尖刺陷阱伤害无视防御和护盾，后期需谨慎走位，勿轻易踩踏。</li>
 </ul>
 <hr>
 <p><strong>祝你探索愉快，越战越勇！</strong></p>
-<h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><p><code>1.0.4</code>：目前版本。</p>
+<h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><p><code>1.0.4</code>：无。</p>
+<p><code>1.0.5</code>：添加了两个被动和一个主动技能。</p>
+<p><code>1.0.5.1</code>：调整了大部分主动技能的数值。</p>
 <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a href="/upload/2026/07/14/Dungeon_1_0_4.cpp" download="Dungeon_1_0_4.cpp"><code>1.0.4</code></a></p>
+<p><a href="/upload/2026/07/16/Dungeon_1_0_5.cpp" download="Dungeon_1_0_5.cpp"><code>1.0.5</code></a></p>
+<p><a href="/upload/2026/07/16/Dungeon_1_0_5_1.cpp" download="Dungeon_1_0_5_1.cpp"><code>1.0.5.1</code></a></p>
 
 		</div>
 
@@ -784,7 +814,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-07-15 20:48:34
+                    :</strong> 2026-07-16 16:13:53
             </li>
         
         <li>
@@ -879,7 +909,7 @@
                     </span>
                     
                         <span>
-                            共 51.3k 字
+                            共 51.5k 字
                         </span>
                     
                 </p>
