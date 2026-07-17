@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-07-14T12:19:34.000Z">
-<meta property="article:modified_time" content="2026-07-16T08:13:53.295Z">
+<meta property="article:modified_time" content="2026-07-17T02:59:08.476Z">
 <meta property="article:author" content="DimStar">
 <meta property="article:tag" content="游戏">
 <meta name="twitter:card" content="summary">
@@ -521,8 +521,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-07-16 16:13:53</span>
-            <span class="mobile">2026-07-16 16:13:53</span>
+            <span class="desktop">2026-07-17 10:59:08</span>
+            <span class="mobile">2026-07-17 10:59:08</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -560,7 +560,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.2k 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.5k 字</span>
         </span>
     
     
@@ -582,7 +582,7 @@
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
 			<p>代码主要是 DeepSeek 写的，DimStar 负责 idea 和数值调整，但我不为平衡性烂负责。（）</p>
 <p>文档是 DeepSeek 写的。</p>
-<h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>《地牢探险》是一款控制台 Roguelike 游戏。玩家扮演一名冒险者，深入随机生成的地牢，面对普通怪物、精英和 BOSS，收集金币与药水，通过升级和商店强化自身，并学习各种被动&#x2F;主动技能。目标是不断深入地下，挑战更高层数。</p>
+<h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>《地牢探险》是一款控制台 Roguelike 游戏。玩家扮演一名冒险者，深入随机生成的地牢，面对普通怪物、精英和 BOSS，收集金币与药水，通过升级、商店和图书馆强化自身，并学习各种被动&#x2F;主动技能。目标是不断深入地下，挑战更高层数。</p>
 <h2 id="操作指南"><a href="#操作指南" class="headerlink" title="操作指南"></a>操作指南</h2><ul>
 <li><strong>移动</strong>：<code>W</code> <code>A</code> <code>S</code> <code>D</code>  </li>
 <li><strong>远程攻击</strong>：<code>F</code>（朝最后一次移动方向射击，或自动锁定最近敌人）  </li>
@@ -595,6 +595,7 @@
 <li>地面有 <strong>尖刺陷阱 <code>^</code></strong>，踩中会受到当前最大生命百分比的伤害（随楼层加深，最多 30%），<strong>该伤害不受玩家防御、护盾或临时防御加成影响</strong>。</li>
 <li>地图上会生成 <strong>药水 <code>+</code></strong>、<strong>攻击强化 <code>A</code></strong>、<strong>防御强化 <code>D</code></strong>、<strong>金币 <code>$</code></strong>。</li>
 <li><strong>出生房间</strong>（玩家起始房间）不会刷新怪物或陷阱，并且商店始终出现在出生房间内。</li>
+<li><strong>图书馆 <code>L</code></strong>：每层有 30% 概率生成，可消耗金币直接提升等级（价格从 30 金币起，同层内每次购买后价格 ×1.5）。</li>
 <li><strong>Boss 层</strong>（每 10 层）只有 Boss 一个敌人，且初始无楼梯，击败 Boss 后楼梯出现。</li>
 </ul>
 <h2 id="战斗系统"><a href="#战斗系统" class="headerlink" title="战斗系统"></a>战斗系统</h2><h3 id="近战攻击"><a href="#近战攻击" class="headerlink" title="近战攻击"></a>近战攻击</h3><ul>
@@ -604,7 +605,7 @@
 </ul>
 <h3 id="远程攻击（F-键）"><a href="#远程攻击（F-键）" class="headerlink" title="远程攻击（F 键）"></a>远程攻击（F 键）</h3><ul>
 <li>消耗少量生命值发射弹矢。</li>
-<li>基础伤害为 <code>攻击力 × (0.8 + 远程倍率)</code>，再经减伤计算。</li>
+<li>基础伤害 &#x3D; <code>攻击力 × (0.8 + 远程倍率)</code>，再经减伤计算。</li>
 <li>拥有<strong>自动锁定</strong>被动时，自动瞄准视野内最近的敌人（距离随技能等级提升）。</li>
 <li>拥有<strong>穿透射击</strong>被动时，远程攻击可穿透墙壁和敌人，每级增加 1 次穿透次数（无穿透时子弹遇墙或命中敌人即消失）。</li>
 <li>若拥有<strong>远程专精</strong>被动，远程攻击的生命消耗会大幅降低，满级时可完全免除消耗。</li>
@@ -612,7 +613,7 @@
 <h3 id="防御与减伤"><a href="#防御与减伤" class="headerlink" title="防御与减伤"></a>防御与减伤</h3><ul>
 <li><strong>玩家受击减伤</strong>：有效防御 &#x3D; 面板防御 + 临时防御加成 + 隐藏护甲（8点）。减伤公式：<code>伤害 × (1 - 有效防御 / (有效防御 + 30))</code>。</li>
 <li><strong>敌人受击减伤</strong>：减伤公式：<code>伤害 × (1 - 敌人防御 / (敌人防御 + 80))</code>，且伤害不会低于攻击力的 <strong>15%</strong>（保底伤害）。</li>
-<li><strong>破甲机制</strong>：连续攻击同一敌人会逐渐降低其防御（每命中一次降低15%当前防御，最多降低60%），停止攻击该敌人一个回合后防御恢复原值。</li>
+<li><strong>破甲机制</strong>：连续攻击同一敌人会逐渐降低其防御（每命中一次降低 15% 当前防御，最多降低 60%），停止攻击该敌人一个回合后防御恢复原值。</li>
 <li><strong>尖刺陷阱伤害</strong>：直接扣除百分比生命，无视防御与护盾。</li>
 </ul>
 <h3 id="特殊状态"><a href="#特殊状态" class="headerlink" title="特殊状态"></a>特殊状态</h3><ul>
@@ -635,6 +636,11 @@
 <li>远程倍率强化（+20% 远程伤害）—— 初始 40 金币，每次购买后价格增加 30 金币</li>
 </ol>
 </li>
+</ul>
+<h3 id="图书馆（L）"><a href="#图书馆（L）" class="headerlink" title="图书馆（L）"></a>图书馆（<code>L</code>）</h3><ul>
+<li>每层有 30% 概率出现，可消耗金币立即提升 1 级。</li>
+<li>第一次购买价格为 30 金币，同层内每次购买后价格 ×1.5（向下取整）。</li>
+<li>可重复购买，直到玩家选择离开或金币不足。</li>
 </ul>
 <h3 id="技能系统"><a href="#技能系统" class="headerlink" title="技能系统"></a>技能系统</h3><ul>
 <li>离开 Boss 层（楼层数为 10 的倍数）时，可从随机三个可选技能中选择一个学习或升级。</li>
@@ -683,7 +689,7 @@
 </tr>
 <tr>
 <td>魔力再生</td>
-<td>每回合额外回复MP</td>
+<td>每回合额外回复 MP</td>
 <td>+1</td>
 <td>+2</td>
 <td>+3</td>
@@ -708,8 +714,8 @@
 <tr>
 <th>技能名称</th>
 <th>效果（Lv1 &#x2F; Lv2 &#x2F; Lv3）</th>
-<th>冷却回合</th>
-<th>MP消耗</th>
+<th>冷却</th>
+<th>MP</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -720,8 +726,8 @@
 </tr>
 <tr>
 <td>烈焰风暴</td>
-<td>对与玩家曼哈顿距离 ≤ 7 的所有敌人造成 <strong>3.0 &#x2F; 5.0 &#x2F; 7.0</strong> 倍攻击力伤害</td>
-<td>5</td>
+<td>对曼哈顿距离 ≤ 7 的敌人造成攻击力 <strong>3.0 &#x2F; 5.0 &#x2F; 7.0</strong> 倍伤害</td>
+<td>4</td>
 <td>40</td>
 </tr>
 <tr>
@@ -732,25 +738,25 @@
 </tr>
 <tr>
 <td>护盾</td>
-<td>获得可吸收 <strong>40% &#x2F; 55% &#x2F; 70%</strong> 最大生命的护盾，持续 <strong>6</strong> 回合</td>
+<td>获得可吸收 <strong>40% &#x2F; 55% &#x2F; 70%</strong> 最大生命的护盾，持续 6 回合</td>
 <td>11</td>
 <td>70</td>
 </tr>
 <tr>
 <td>狂暴</td>
-<td>攻击力临时提高 <strong>30% &#x2F; 40% &#x2F; 50%</strong>，持续 <strong>6</strong> 回合</td>
+<td>攻击力临时提高 <strong>30% &#x2F; 40% &#x2F; 50%</strong>，持续 6 回合</td>
 <td>8</td>
 <td>50</td>
 </tr>
 <tr>
 <td>铁壁</td>
-<td>防御力临时提高 <strong>30% &#x2F; 40% &#x2F; 50%</strong>，持续 <strong>6</strong> 回合</td>
+<td>防御力临时提高 <strong>30% &#x2F; 40% &#x2F; 50%</strong>，持续 6 回合</td>
 <td>8</td>
 <td>50</td>
 </tr>
 <tr>
 <td>冻结</td>
-<td>冻结所有敌人 <strong>4 &#x2F; 5 &#x2F; 6</strong> 回合</td>
+<td>冻结视野内所有敌人 <strong>4 &#x2F; 5 &#x2F; 6</strong> 回合</td>
 <td>11</td>
 <td>80</td>
 </tr>
@@ -760,8 +766,20 @@
 <td>8</td>
 <td>40</td>
 </tr>
+<tr>
+<td>导弹打击</td>
+<td>随机重击一个敌人（优先附近），伤害 &#x3D; max(攻击力×<strong>6.0&#x2F;9.0&#x2F;12.0</strong>×敌人减伤, 目标最大生命×<strong>30%&#x2F;40%&#x2F;50%</strong>)</td>
+<td>6</td>
+<td>60</td>
+</tr>
+<tr>
+<td>熔岩吐息</td>
+<td>向前方锥形范围（深 3 层，宽逐层扩大）喷火，造成攻击力×<strong>2.0&#x2F;3.0&#x2F;4.0</strong> 伤害，并永久降低被击中敌人防御 <strong>10%&#x2F;20%&#x2F;30%</strong>（先降防后计算伤害）</td>
+<td>6</td>
+<td>50</td>
+</tr>
 </tbody></table>
-<p><em>注：所有百分比基于技能使用时的当前攻击力&#x2F;防御力&#x2F;最大生命计算。</em></p>
+<p><em>注：所有百分比基于技能使用时的当前攻击力&#x2F;防御力&#x2F;最大生命计算。护盾优先吸收伤害；冻结状态下敌人无法行动。</em></p>
 <h2 id="怪物类型"><a href="#怪物类型" class="headerlink" title="怪物类型"></a>怪物类型</h2><ul>
 <li><strong>普通近战 <code>E</code></strong>：基础属性，随楼层成长。</li>
 <li><strong>普通弓箭手 <code>r</code></strong>：生命较低（80%），攻击力较高（120%），可在 2～4 格射程远程攻击玩家。</li>
@@ -773,7 +791,7 @@
 <h2 id="存档与记录"><a href="#存档与记录" class="headerlink" title="存档与记录"></a>存档与记录</h2><ul>
 <li><strong>自动存档</strong>：每当通过楼梯进入下一层或主动从 Boss 层胜利离开时自动保存进度。</li>
 <li><strong>死亡惩罚</strong>：角色死亡后存档删除，需重新开始。</li>
-<li><strong>永久记录</strong>：每次游戏结束（死亡、胜利或主动退出）会更新永久历史记录（最深楼层、最高等级、各怪物最高击杀数），可在主菜单查看。</li>
+<li><strong>永久记录</strong>：每次游戏结束会更新永久历史记录（最深楼层、最高等级、各怪物最高击杀数），可在主菜单查看。</li>
 <li><strong>当前存档详情</strong>：主菜单可查看现有存档的详细状态，包括角色属性、金币、技能清单等。</li>
 </ul>
 <h2 id="界面提示"><a href="#界面提示" class="headerlink" title="界面提示"></a>界面提示</h2><p>游戏画面下方会显示状态栏和消息：</p>
@@ -787,16 +805,18 @@
 <li>善用远程攻击和技能风筝精英怪与 Boss。</li>
 <li>自动锁定与穿透射击是提升远程效率的关键被动；两者互斥，只能择一学习。</li>
 <li>商店中的近战&#x2F;远程倍率强化价格会不断增长，请合理分配金币；前几次购买性价比极高。</li>
+<li>图书馆是同层内快速升级的好途径，但价格递增，建议在金币充裕时集中使用。</li>
 <li>护盾与冻结技能是保命神技，但冷却较长，建议预留到危急时刻使用。</li>
-<li>连续攻击同一精英可快速触发破甲，大幅提升击杀速度，但注意转火后防御会立刻恢复。</li>
-<li>出生房间永远安全，可放心休整后再出发探索。</li>
+<li>熔岩吐息的永久降防可与破甲叠加，对抗高防精英极为有效。</li>
 <li>尖刺陷阱伤害无视防御和护盾，后期需谨慎走位，勿轻易踩踏。</li>
+<li>出生房间永远安全，可放心休整后再出发探索。</li>
 </ul>
 <hr>
 <p><strong>祝你探索愉快，越战越勇！</strong></p>
 <h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><p><code>1.0.4</code>：无。</p>
 <p><code>1.0.5</code>：添加了两个被动和一个主动技能。</p>
 <p><code>1.0.5.1</code>：调整了大部分主动技能的数值。</p>
+<p><code>1.0.6</code>：添加了“图书馆”和两个主动技能。</p>
 <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a href="/upload/2026/07/14/Dungeon_1_0_4.cpp" download="Dungeon_1_0_4.cpp"><code>1.0.4</code></a></p>
 <p><a href="/upload/2026/07/16/Dungeon_1_0_5.cpp" download="Dungeon_1_0_5.cpp"><code>1.0.5</code></a></p>
 <p><a href="/upload/2026/07/16/Dungeon_1_0_5_1.cpp" download="Dungeon_1_0_5_1.cpp"><code>1.0.5.1</code></a></p>
@@ -814,7 +834,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-07-16 16:13:53
+                    :</strong> 2026-07-17 10:59:08
             </li>
         
         <li>
@@ -877,7 +897,7 @@
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
 		<div class="page-title">一个 C++ 控制台地牢探险游戏</div>
-		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AE%80%E4%BB%8B"><span class="nav-text">游戏简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97"><span class="nav-text">操作指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E4%B8%8E%E7%94%9F%E6%88%90"><span class="nav-text">地图与生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F"><span class="nav-text">战斗系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E6%88%98%E6%94%BB%E5%87%BB"><span class="nav-text">近战攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E6%94%BB%E5%87%BB%EF%BC%88F-%E9%94%AE%EF%BC%89"><span class="nav-text">远程攻击（F 键）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E4%B8%8E%E5%87%8F%E4%BC%A4"><span class="nav-text">防御与减伤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%8A%B6%E6%80%81"><span class="nav-text">特殊状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%88%90%E9%95%BF"><span class="nav-text">角色成长</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E7%BA%A7%E4%B8%8E%E7%BB%8F%E9%AA%8C"><span class="nav-text">等级与经验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%91%E5%B8%81%E4%B8%8E%E5%95%86%E5%BA%97%EF%BC%88S%EF%BC%89"><span class="nav-text">金币与商店（S）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F"><span class="nav-text">技能系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%AA%E7%89%A9%E7%B1%BB%E5%9E%8B"><span class="nav-text">怪物类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E6%A1%A3%E4%B8%8E%E8%AE%B0%E5%BD%95"><span class="nav-text">存档与记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E6%8F%90%E7%A4%BA"><span class="nav-text">界面提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-text">实用技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97"><span class="nav-text">更新日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-text">源码</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AE%80%E4%BB%8B"><span class="nav-text">游戏简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97"><span class="nav-text">操作指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E4%B8%8E%E7%94%9F%E6%88%90"><span class="nav-text">地图与生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F"><span class="nav-text">战斗系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E6%88%98%E6%94%BB%E5%87%BB"><span class="nav-text">近战攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E6%94%BB%E5%87%BB%EF%BC%88F-%E9%94%AE%EF%BC%89"><span class="nav-text">远程攻击（F 键）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E4%B8%8E%E5%87%8F%E4%BC%A4"><span class="nav-text">防御与减伤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%8A%B6%E6%80%81"><span class="nav-text">特殊状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%88%90%E9%95%BF"><span class="nav-text">角色成长</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E7%BA%A7%E4%B8%8E%E7%BB%8F%E9%AA%8C"><span class="nav-text">等级与经验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%91%E5%B8%81%E4%B8%8E%E5%95%86%E5%BA%97%EF%BC%88S%EF%BC%89"><span class="nav-text">金币与商店（S）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E4%B9%A6%E9%A6%86%EF%BC%88L%EF%BC%89"><span class="nav-text">图书馆（L）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F"><span class="nav-text">技能系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%AA%E7%89%A9%E7%B1%BB%E5%9E%8B"><span class="nav-text">怪物类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E6%A1%A3%E4%B8%8E%E8%AE%B0%E5%BD%95"><span class="nav-text">存档与记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E6%8F%90%E7%A4%BA"><span class="nav-text">界面提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-text">实用技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97"><span class="nav-text">更新日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-text">源码</span></a></li></ol>
 
 	</div>
 </div>
@@ -909,7 +929,7 @@
                     </span>
                     
                         <span>
-                            共 51.7k 字
+                            共 52.1k 字
                         </span>
                     
                 </p>
