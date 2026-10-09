@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="DimStar">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://dimstar-zhang.github.io/2026/07/14/一个控制台地牢探险游戏/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个 C++ 控制台地牢探险游戏">
+<meta property="og:url" content="https://dimstar-zhang.github.io/2026/07/14/%E4%B8%80%E4%B8%AA%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%9C%B0%E7%89%A2%E6%8E%A2%E9%99%A9%E6%B8%B8%E6%88%8F/index.html">
+<meta property="og:site_name" content="DimStar 的博客">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-07-14T12:19:34.000Z">
+<meta property="article:modified_time" content="2026-07-20T11:04:06.203Z">
+<meta property="article:author" content="DimStar">
+<meta property="article:tag" content="游戏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dimstar-zhang.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/site/favico2.webp" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/site/favico2.webp">
+    <meta name="theme-color" content="#b6c9dd">
+    <link rel="shortcut icon" href="/images/site/favico2.webp">
+    <!--- Page Info-->
+    
+    <title>
+        
+            一个 C++ 控制台地牢探险游戏 | DimStar&#39;s Blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"dimstar-zhang.github.io","root":"/","language":"zh-CN","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":false},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#b6c9dd","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/site/136058.jpg","dark":"/images/site/597756.jpg"},"title":"DimStar's Blog","subtitle":{"text":["Perchance."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":50,"backing_speed":80,"starting_delay":300,"backing_delay":1500,"loop":false,"smart_backspace":false},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"https://fecdn.luogu.com.cn/columba/static.0e9e3dd97eb08d49.logo-single.png","url":"https://www.luogu.com.cn/user/755179/"},{"icon":"fa-brands fa-github","url":"https://github.com/DimStar-zhang/"},{"icon":"fa-solid fa-at","url":"zhang_1099@outlook.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":true,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#1698f8","right":"#222e5e","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories","icon":"fa-solid fa-folder"},"Tags":{"path":"/tags/","icon":"fa-solid fa-tags"},"Links":{"icon":"fa-regular fa-link","submenus":{"友链":"/links/","相册":"/masonry/","关于":"/about/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"cloud","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2026/3/2 12:00:00","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2026/3/2 12:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                DimStar&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories"
+                                        >
+                                    <i class="fa-solid fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-solid fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    链接
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/links/">
+                                                    友链
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/masonry/">
+                                                    相册
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/about/">
+                                                    关于
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-solid fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-solid fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-Links"
+                        >
+                            <span>
+                                链接
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-Links">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/links/">友链</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/masonry/">相册</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about/">关于</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">11</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">36</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">一个 C++ 控制台地牢探险游戏</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/icon/avatar.webp">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">DimStar</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-07-14 20:19:34</span>
+        <span class="mobile">2026-07-14 20:19:34</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-07-20 19:04:06</span>
+            <span class="mobile">2026-07-20 19:04:06</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E5%A8%B1%E4%B9%90/">娱乐</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.1k 字</span>
+        </span>
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>代码主要是 DeepSeek 写的，DimStar 负责 idea 和数值调整，但我不为平衡性烂负责。（）</p>
+<p>文档是 DeepSeek 写的。</p>
+<h2 id="地牢探险（Dungeon-Explorer）游戏文档"><a href="#地牢探险（Dungeon-Explorer）游戏文档" class="headerlink" title="地牢探险（Dungeon Explorer）游戏文档"></a>地牢探险（Dungeon Explorer）游戏文档</h2><h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>《地牢探险》是一款控制台 Roguelike 游戏。玩家扮演冒险者，深入随机生成的地牢，面对普通怪物、精英和 BOSS，收集金币与强化道具，通过升级、商店和图书馆提升实力，学习各种被动与主动技能。目标是不断深入地下，挑战更高楼层。</p>
+<h2 id="操作指南"><a href="#操作指南" class="headerlink" title="操作指南"></a>操作指南</h2><ul>
+<li><strong>移动</strong>：<code>W</code> <code>A</code> <code>S</code> <code>D</code>  </li>
+<li><strong>远程攻击</strong>：<code>F</code>（朝最后一次移动方向射击，或自动锁定最近敌人）  </li>
+<li><strong>使用技能</strong>：数字键 <code>1</code> ～ <code>5</code>（对应主动技能槽位，最多同时拥有 5 个主动技能）  </li>
+<li><strong>退出游戏</strong>：<code>Q</code>（可在战斗中随时退出）  </li>
+<li><strong>楼梯交互</strong>：站在楼梯 <code>&gt;</code> 上时，按 <code>Y</code> 进入下一层，按 <code>N</code> 留在本层；Boss 层还可按 <code>Q</code> 胜利离开。</li>
+</ul>
+<h2 id="地图与生成"><a href="#地图与生成" class="headerlink" title="地图与生成"></a>地图与生成</h2><ul>
+<li>地图大小为 <strong>80×30</strong>，由随机房间与走廊连接而成。</li>
+<li>地面有 <strong>尖刺陷阱 <code>^</code></strong>，踩中会受到当前最大生命百分比的伤害（随楼层加深，最多 30%），<strong>该伤害无视防御和护盾</strong>。</li>
+<li>可拾取物品包括 <strong>药水 <code>+</code></strong>（恢复最大生命的 10% + 15 点）、<strong>攻击强化 <code>A</code></strong>、<strong>防御强化 <code>D</code></strong>、<strong>金币 <code>$</code></strong>。同类物品会在同一格堆叠，拾取时一次性获得全部数量。</li>
+<li><strong>出生房间</strong>（玩家起始房间）不会刷新怪物或陷阱，且商店必定出现在出生房间内。</li>
+<li><strong>图书馆 <code>L</code></strong>：每层有 30% 概率生成，可消耗金币直接提升等级（初始 30 金币&#x2F;级，同层内每次购买后价格 ×1.5，可重复购买）。</li>
+<li><strong>Boss 层</strong>（每 10 层）只有 Boss 一个敌人，初始无楼梯，击败 Boss 后楼梯出现。</li>
+</ul>
+<h2 id="战斗系统"><a href="#战斗系统" class="headerlink" title="战斗系统"></a>战斗系统</h2><h3 id="近战攻击"><a href="#近战攻击" class="headerlink" title="近战攻击"></a>近战攻击</h3><ul>
+<li>向敌人所在格子移动即可发动近战攻击。</li>
+<li>伤害 &#x3D; <code>(攻击力 + 临时攻击加成) × (1 + 近战倍率)</code>，再经敌人防御减伤计算。</li>
+<li>拥有<strong>吸血</strong>被动时，按造成伤害的一定比例恢复生命。</li>
+</ul>
+<h3 id="远程攻击（F-键）"><a href="#远程攻击（F-键）" class="headerlink" title="远程攻击（F 键）"></a>远程攻击（F 键）</h3><ul>
+<li>消耗少量生命值发射弹矢。基础伤害 &#x3D; <code>攻击力 × (0.8 + 远程倍率)</code>，再经减伤。</li>
+<li>拥有<strong>自动锁定</strong>时，自动瞄准视野内最近的敌人（距离随等级提升）。</li>
+<li>拥有<strong>穿透射击</strong>时，远程攻击可穿透墙壁和敌人，每级增加 1 次穿透。</li>
+<li>拥有<strong>远程专精</strong>时，远程攻击的生命消耗大幅降低，满级可完全免除消耗。</li>
+</ul>
+<h3 id="防御与减伤"><a href="#防御与减伤" class="headerlink" title="防御与减伤"></a>防御与减伤</h3><ul>
+<li><strong>玩家受击</strong>：有效防御 &#x3D; 面板防御 + 临时防御加成 + 隐藏护甲（8）。减伤公式：<code>伤害 × (1 - 有效防御 / (有效防御 + 30))</code>。</li>
+<li><strong>敌人受击</strong>：减伤公式：<code>伤害 × (1 - 敌人防御 / (敌人防御 + 80))</code>。伤害不会低于攻击力的 <strong>15%</strong>（保底伤害）。</li>
+<li><strong>破甲机制</strong>：连续攻击同一敌人会降低其防御（每命中一次降 15%，最多降 60%）。停止攻击一回合后防御恢复原值。</li>
+</ul>
+<h3 id="特殊状态"><a href="#特殊状态" class="headerlink" title="特殊状态"></a>特殊状态</h3><ul>
+<li><strong>护盾</strong>：吸收伤害，优先于生命扣除，持续回合结束或耗尽。</li>
+<li><strong>临时攻防加成</strong>：由技能提供，各自独立计时。</li>
+<li><strong>冻结</strong>：所有敌人跳过行动若干回合。</li>
+</ul>
+<h2 id="角色成长"><a href="#角色成长" class="headerlink" title="角色成长"></a>角色成长</h2><h3 id="等级与经验"><a href="#等级与经验" class="headerlink" title="等级与经验"></a>等级与经验</h3><ul>
+<li>击杀敌人获得经验，达到需求后自动升级。</li>
+<li>每级：生命上限 +6，攻击力 +3，防御 +1，最大 MP +3，HP 回满。</li>
+<li>经验需求随等级递增，每 50 级翻倍。</li>
+</ul>
+<h3 id="商店（S）"><a href="#商店（S）" class="headerlink" title="商店（S）"></a>商店（<code>S</code>）</h3><ul>
+<li>固定出现在出生房间，可循环购买。</li>
+<li>商品列表：<ol>
+<li>大药水（恢复 50% 最大生命）—— 15 金</li>
+<li>攻击强化（+3 攻击）—— 25 金</li>
+<li>防御强化（+2 防御）—— 25 金</li>
+<li>近战倍率强化（+30% 近战伤害）—— 初始 40 金，每次购买价格 +30</li>
+<li>远程倍率强化（+20% 远程伤害）—— 初始 40 金，每次购买价格 +30</li>
+</ol>
+</li>
+</ul>
+<h3 id="图书馆（L）"><a href="#图书馆（L）" class="headerlink" title="图书馆（L）"></a>图书馆（<code>L</code>）</h3><ul>
+<li>可消耗金币立即提升 1 级。第一次 30 金，同层每次购买价格 ×1.5（向下取整）。可重复购买直到离开或金币不足。</li>
+</ul>
+<h2 id="技能系统"><a href="#技能系统" class="headerlink" title="技能系统"></a>技能系统</h2><ul>
+<li>离开 Boss 层时，从随机三个可选技能中选择一个学习或升级。</li>
+<li>技能最高 3 级。最多拥有 <strong>5 个主动技能</strong> 和 <strong>5 个被动技能</strong>。</li>
+<li>主动技能按数字键使用，消耗 MP 并有冷却；被动技能永久生效。</li>
+</ul>
+<h3 id="被动技能"><a href="#被动技能" class="headerlink" title="被动技能"></a>被动技能</h3><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>效果</th>
+<th>Lv1</th>
+<th>Lv2</th>
+<th>Lv3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自动锁定</td>
+<td>远程自动瞄准，瞄准距离增加</td>
+<td>12格</td>
+<td>18格</td>
+<td>24格</td>
+</tr>
+<tr>
+<td>穿透射击</td>
+<td>远程可穿透墙壁&#x2F;敌人（次数）</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>经验加成</td>
+<td>获得经验增加</td>
+<td>+20%</td>
+<td>+40%</td>
+<td>+60%</td>
+</tr>
+<tr>
+<td>金币加成</td>
+<td>获得金币增加</td>
+<td>+20%</td>
+<td>+40%</td>
+<td>+60%</td>
+</tr>
+<tr>
+<td>魔力再生</td>
+<td>每回合额外回复 MP</td>
+<td>+1</td>
+<td>+2</td>
+<td>+3</td>
+</tr>
+<tr>
+<td>吸血</td>
+<td>近战伤害吸血比例</td>
+<td>10%</td>
+<td>15%</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>远程专精</td>
+<td>远程攻击生命消耗降低</td>
+<td>50%</td>
+<td>75%</td>
+<td>100%</td>
+</tr>
+</tbody></table>
+<h3 id="主动技能"><a href="#主动技能" class="headerlink" title="主动技能"></a>主动技能</h3><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>效果（Lv1 &#x2F; Lv2 &#x2F; Lv3）</th>
+<th>冷却</th>
+<th>MP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>冲刺</td>
+<td>向方向前进 4&#x2F;5&#x2F;6 格</td>
+<td>3</td>
+<td>15</td>
+</tr>
+<tr>
+<td>烈焰风暴</td>
+<td>对曼哈顿距离≤7的敌人造成 3.0&#x2F;5.0&#x2F;7.0 倍攻击力伤害</td>
+<td>4</td>
+<td>40</td>
+</tr>
+<tr>
+<td>治疗术</td>
+<td>回复 20%&#x2F;30%&#x2F;40% 最大生命</td>
+<td>15</td>
+<td>100</td>
+</tr>
+<tr>
+<td>护盾</td>
+<td>获得 40%&#x2F;55%&#x2F;70% 最大生命的护盾，持续6回合</td>
+<td>11</td>
+<td>70</td>
+</tr>
+<tr>
+<td>狂暴</td>
+<td>攻击力临时提高 30%&#x2F;40%&#x2F;50%，持续6回合</td>
+<td>8</td>
+<td>50</td>
+</tr>
+<tr>
+<td>铁壁</td>
+<td>防御力临时提高 30%&#x2F;40%&#x2F;50%，持续6回合</td>
+<td>8</td>
+<td>50</td>
+</tr>
+<tr>
+<td>冻结</td>
+<td>冻结所有敌人 4&#x2F;5&#x2F;6 回合</td>
+<td>11</td>
+<td>80</td>
+</tr>
+<tr>
+<td>闪现</td>
+<td>向方向瞬移 9&#x2F;12&#x2F;15 格，可穿墙</td>
+<td>8</td>
+<td>40</td>
+</tr>
+<tr>
+<td>导弹打击</td>
+<td>随机重击附近敌人，伤害不低于最大生命的30%&#x2F;40%&#x2F;50%，倍率6&#x2F;9&#x2F;12</td>
+<td>6</td>
+<td>60</td>
+</tr>
+<tr>
+<td>熔岩吐息</td>
+<td>前方锥形喷火（深3层），伤害 2.0&#x2F;3.0&#x2F;4.0 倍攻击力，并永久降低敌人防御 10%&#x2F;20%&#x2F;30%</td>
+<td>6</td>
+<td>50</td>
+</tr>
+</tbody></table>
+<h2 id="怪物类型"><a href="#怪物类型" class="headerlink" title="怪物类型"></a>怪物类型</h2><h3 id="普通敌人"><a href="#普通敌人" class="headerlink" title="普通敌人"></a>普通敌人</h3><ul>
+<li><strong>生命</strong>：<code>(6 + 随机0~1 + 楼层×6) × 1.5</code></li>
+<li><strong>攻击</strong>：<code>(2 + 随机0~1 + 楼层×3) × 1.5</code></li>
+<li><strong>防御</strong>：<code>(1 + 随机0~1 + 楼层×1.5) × 1.5</code></li>
+<li>弓箭手（<code>r</code>）：生命 ×0.8，攻击 ×1.2。</li>
+</ul>
+<h3 id="精英敌人"><a href="#精英敌人" class="headerlink" title="精英敌人"></a>精英敌人</h3><ul>
+<li><strong>生命</strong>：普通生命 × <code>(2.0 + 楼层×0.25)</code></li>
+<li><strong>攻击</strong>：普通攻击 × <code>(1.3 + 楼层×0.05)</code> + 楼层×2</li>
+<li><strong>防御</strong>：普通防御 × <code>(1.1 + 楼层×0.02)</code> + 楼层×0.2</li>
+</ul>
+<h3 id="Boss（每10层出现）"><a href="#Boss（每10层出现）" class="headerlink" title="Boss（每10层出现）"></a>Boss（每10层出现）</h3><ul>
+<li><strong>生命</strong>：<code>(12 + 随机0~2 + 楼层×11) × (3.5 + 楼层×0.3)</code></li>
+<li><strong>攻击</strong>：<code>(6 + 随机0~1 + 楼层×5) × (2.2 + 楼层×0.07)</code></li>
+<li><strong>防御</strong>：<code>(4 + 随机0~1 + 楼层×3) × (1.4 + 楼层×0.04)</code></li>
+</ul>
+<p>所有敌人均受破甲影响。</p>
+<h2 id="存档与记录"><a href="#存档与记录" class="headerlink" title="存档与记录"></a>存档与记录</h2><ul>
+<li><strong>自动存档</strong>：进入下一层或从 Boss 层胜利离开时自动保存。</li>
+<li><strong>死亡删档</strong>：角色死亡后存档删除。</li>
+<li><strong>永久记录</strong>：每局结束更新最深楼层、最高等级、各怪物最高击杀数，可在主菜单查看。</li>
+<li><strong>当前存档详情</strong>：主菜单可查看角色属性、技能、金币等。</li>
+</ul>
+<h2 id="界面提示"><a href="#界面提示" class="headerlink" title="界面提示"></a>界面提示</h2><ul>
+<li>状态栏：楼层、HP&#x2F;MP、攻击、防御、等级、经验、金币、敌人数量、近战&#x2F;远程倍率。</li>
+<li>技能栏：显示数字键对应的主动技能及冷却。</li>
+<li>临时状态：护盾值、攻&#x2F;防加成、冻结回合。</li>
+<li>消息区：战斗反馈与技能提示。</li>
+</ul>
+<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><ul>
+<li>善用远程攻击和技能风筝精英与 Boss。</li>
+<li>自动锁定和穿透射击互斥，只能择一；两者都能大幅提升远程效率。</li>
+<li>商店的倍率强化价格不断增长，前几次购买最划算。</li>
+<li>图书馆在金币充裕时能快速提升等级，同层内价格递增，请合理规划。</li>
+<li>熔岩吐息的永久降防与破甲叠加，对抗高防精英极有效。</li>
+<li>尖刺陷阱伤害无视护盾，后期请小心走位。</li>
+<li>出生房间永远安全，可放心休整。</li>
+</ul>
+<hr>
+<h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><p><code>1.0.4</code>：无。</p>
+<p><code>1.0.5</code>：添加了两个被动和一个主动技能。</p>
+<p><code>1.0.5.1</code>：调整了大部分主动技能的数值。</p>
+<p><code>1.0.6.1</code>：添加了“图书馆”和两个主动技能，并加入了一些游玩优化。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a href="/upload/2026/07/14/Dungeon_1_0_4.cpp" download="Dungeon_1_0_4.cpp"><code>1.0.4</code></a></p>
+<p><a href="/upload/2026/07/16/Dungeon_1_0_5.cpp" download="Dungeon_1_0_5.cpp"><code>1.0.5</code></a></p>
+<p><a href="/upload/2026/07/16/Dungeon_1_0_5_1.cpp" download="Dungeon_1_0_5_1.cpp"><code>1.0.5.1</code></a></p>
+<p><a href="/upload/2026/07/20/Dungeon_1_0_6_1.cpp" download="Dungeon_1_0_6_1.cpp"><code>1.0.5.1</code></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 一个 C++ 控制台地牢探险游戏</li>
+        <li><strong>作者:</strong> DimStar</li>
+        <li><strong>创建于
+                :</strong> 2026-07-14 20:19:34</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-07-20 19:04:06
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://dimstar-zhang.github.io/2026/07/14/一个控制台地牢探险游戏/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%B8%B8%E6%88%8F/">#游戏</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/07/18/%E9%A2%98%E8%A7%A3%EF%BC%9ACF2215C-Oriented-Journey/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">题解：CF2215C Oriented Journey</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/07/09/7%E6%9C%88%E6%97%A5%E5%BF%97/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">7月日志</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">一个 C++ 控制台地牢探险游戏</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E7%89%A2%E6%8E%A2%E9%99%A9%EF%BC%88Dungeon-Explorer%EF%BC%89%E6%B8%B8%E6%88%8F%E6%96%87%E6%A1%A3"><span class="nav-text">地牢探险（Dungeon Explorer）游戏文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AE%80%E4%BB%8B"><span class="nav-text">游戏简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97"><span class="nav-text">操作指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E4%B8%8E%E7%94%9F%E6%88%90"><span class="nav-text">地图与生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F"><span class="nav-text">战斗系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E6%88%98%E6%94%BB%E5%87%BB"><span class="nav-text">近战攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E6%94%BB%E5%87%BB%EF%BC%88F-%E9%94%AE%EF%BC%89"><span class="nav-text">远程攻击（F 键）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E4%B8%8E%E5%87%8F%E4%BC%A4"><span class="nav-text">防御与减伤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%8A%B6%E6%80%81"><span class="nav-text">特殊状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%88%90%E9%95%BF"><span class="nav-text">角色成长</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E7%BA%A7%E4%B8%8E%E7%BB%8F%E9%AA%8C"><span class="nav-text">等级与经验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%86%E5%BA%97%EF%BC%88S%EF%BC%89"><span class="nav-text">商店（S）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E4%B9%A6%E9%A6%86%EF%BC%88L%EF%BC%89"><span class="nav-text">图书馆（L）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F"><span class="nav-text">技能系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E5%8A%A8%E6%8A%80%E8%83%BD"><span class="nav-text">被动技能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%8A%A8%E6%8A%80%E8%83%BD"><span class="nav-text">主动技能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%AA%E7%89%A9%E7%B1%BB%E5%9E%8B"><span class="nav-text">怪物类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E6%95%8C%E4%BA%BA"><span class="nav-text">普通敌人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B2%BE%E8%8B%B1%E6%95%8C%E4%BA%BA"><span class="nav-text">精英敌人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boss%EF%BC%88%E6%AF%8F10%E5%B1%82%E5%87%BA%E7%8E%B0%EF%BC%89"><span class="nav-text">Boss（每10层出现）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E6%A1%A3%E4%B8%8E%E8%AE%B0%E5%BD%95"><span class="nav-text">存档与记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E6%8F%90%E7%A4%BA"><span class="nav-text">界面提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-text">实用技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97"><span class="nav-text">更新日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-text">源码</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2026</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">DimStar</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 36 篇文章
+                    </span>
+                    
+                        <span>
+                            共 55.1k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+    
+        
+<script src="/js/build/libs/mermaid.min.js"></script>
+
+    
+
+
+
+
+
+    
+<script src="/js/build/libs/minimasonry.min.js" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+</body>
+
+</html>
